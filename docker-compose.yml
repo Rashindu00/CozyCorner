@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: cozycorner-db
+    environment:
+      POSTGRES_DB: cozycorner_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - cozycorner-network
+
+  # Spring Boot Application
+  app:
+    build: .
+    container_name: cozycorner-app
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/cozycorner_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+      JWT_SECRET: cozyCornerDockerSecretKeyThatIsLongEnoughForHS512Algorithm
+      STRIPE_API_KEY: your_stripe_secret_key_here
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./uploads:/app/uploads
+    networks:
+      - cozycorner-network
+    restart: unless-stopped
+
+  # Redis for caching (optional)
+  redis:
+    image: redis:7-alpine
+    container_name: cozycorner-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - cozycorner-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  cozycorner-network:
+    driver: bridge
