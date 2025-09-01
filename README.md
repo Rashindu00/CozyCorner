@@ -153,29 +153,62 @@ git clone https://github.com/yourusername/CozyCorner.git
 cd CozyCorner
 ```
 
-2. **Configure Database**
+2. **Prerequisites Installation**
+```bash
+# Install Java 17+ (if not installed)
+# Download from: https://adoptium.net/temurin/releases/
+
+# Install Maven (if not installed)
+# Download from: https://maven.apache.org/download.cgi
+# Add Maven bin directory to your PATH environment variable
+
+# Verify installations
+java -version
+mvn -version
+```
+
+3. **Configure Database**
 - Create PostgreSQL database: `cozycorner_db`
 - Update `application.properties` with your database credentials
 
-3. **Build and Run**
+4. **Build and Run Backend**
 ```bash
 # Install dependencies
 mvn clean install
 
-# Run the application
+# Run the Spring Boot application
 mvn spring-boot:run
 ```
 
-4. **Access the Application**
+5. **Run Frontend** (in a separate terminal)
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+6. **Access the Application**
+- Frontend: `http://localhost:3000`
 - Backend API: `http://localhost:8080/api`
 - H2 Console (testing): `http://localhost:8080/h2-console`
 
-### **Default Test Users**
+### **Quick Start (Frontend Only)**
+If you want to run just the frontend with mock data:
+```bash
+cd frontend
+npm install
+npm run dev
+```
+The frontend includes fallback mock data when the backend is not running.
+
+### **Default Test Users** (Backend Required)
 ```
 Admin: admin@cozycorner.com / admin123
 Customer: customer@test.com / customer123
 Driver: driver@test.com / driver123
 ```
+
+**Note:** Authentication requires the Spring Boot backend to be running. The frontend includes demo functionality with mock data when the backend is unavailable.
 
 ## 🧪 Testing
 
