@@ -67,3 +67,14 @@ hibernate.cfg.xml
 *.p12
 *.jks
 *.keystore
+
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.next/
+.nuxt/
+dist/
+build/
